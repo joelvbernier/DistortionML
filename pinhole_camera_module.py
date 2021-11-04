@@ -1,12 +1,12 @@
 import numpy as np
 
-import numba
+# import numba
 
 epsf = np.finfo(float).eps
 sqrt_epsf = np.sqrt(epsf)
 
 
-@numba.njit(nogil=True, cache=False, parallel=False)
+# @numba.njit(nogil=True, cache=False, parallel=False)
 def row_norm(a, out=None):
     out = out if out is not None else np.empty(len(a))
 
@@ -21,7 +21,7 @@ def row_norm(a, out=None):
     return out
 
 
-@numba.njit(nogil=True, cache=False, parallel=False)
+# @numba.njit(nogil=True, cache=False, parallel=False)
 def unit_vector(a, out=None):
     out = out if out is not None else np.empty_like(a)
 
@@ -40,13 +40,13 @@ def unit_vector(a, out=None):
     return out
 
 
-@numba.njit(nogil=True, cache=False, parallel=True)
+# @numba.njit(nogil=True, cache=False, parallel=True)
 def compute_offset_beam_vector(bv, rho, tv, out=None):
     out = out if out is not None else np.empty_like(bv)
     return -unit_vector(-bv*rho - tv)
 
 
-@numba.njit(nogil=True, cache=False, parallel=True)
+# @numba.njit(nogil=True, cache=False, parallel=True)
 def ray_plane(rays, rmat, tvec):
     """
     Calculate the primitive ray-plane intersection.
@@ -85,7 +85,7 @@ def ray_plane(rays, rmat, tvec):
     return np.dot(output - tvec, rmat)[:, :2]
 
 
-@numba.njit(nogil=True, cache=False, parallel=True)
+# @numba.njit(nogil=True, cache=False, parallel=True)
 def ray_plane_trivial(rays, tvec):
     """
     Calculate the primitive ray-plane intersection _without_ rotation
@@ -120,7 +120,7 @@ def ray_plane_trivial(rays, tvec):
     return (output - tvec)[:, :2]
 
 
-@numba.njit(nogil=True, cache=False, parallel=True)
+# @numba.njit(nogil=True, cache=False, parallel=True)
 def pinhole_constraint(pixel_xys, voxel_vec, rmat_d_reduced, tvec_d,
                        radius, thickness):
     """

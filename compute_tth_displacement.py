@@ -39,7 +39,7 @@ layer_standoff = 0.150    # offset to sample layer
 layer_thickness = 0.01    # layer thickness
 
 # Target voxel size
-voxel_size = 0.075
+voxel_size = 0.015
 
 
 # =============================================================================
@@ -87,7 +87,7 @@ vcrds = np.vstack([vx, vy, np.ones_like(vx)*layer_standoff]).T
 # loop over voxels to aggregate pixel angles and contributing voxel count
 master_ptth = np.zeros(det.shape, dtype=float)
 voxel_count = np.zeros(det.shape, dtype=float)
-reduced_rmat = np.ascontiguousarray(det.rmat[:, :2].T)
+reduced_rmat = np.ascontiguousarray(det.rmat[:, :2].T)  # transpose for np.dot
 for iv, vcrd in enumerate(tqdm(vcrds)):
     # need new beam vector from curent voxel coordinate
     new_bv = phutil.compute_offset_beam_vector(bhat, rho, np.atleast_2d(vcrd))
