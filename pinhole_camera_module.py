@@ -164,6 +164,22 @@ def pinhole_constraint(pixel_xys, voxel_vec, rmat_d_reduced, tvec_d,
     return np.logical_and(fint <= radius, bint <= radius)
 
 
-def compute_voxel_radius(offset, radius, thickness):
-    limiting_cone_angle = 0.5*np.pi - np.arctan2(0.5*thickness, radius)
-    return (0.5*thickness + offset)*np.tan(limiting_cone_angle)
+def compute_critical_voxel_radius(offset, radius, thickness):
+    """
+    Compute the offset-sepcific critical radius of a pinhole aperture.
+
+    Parameters
+    ----------
+    offset : scalar
+        The offset from the front of the pinhole to the layer position.
+    radius : scalar
+        pinhole radius.
+    thickness : scalar
+        pinhole thickness (cylinder height).
+
+    Returns
+    -------
+    scalar
+        the critical _radius_ for a voxel to ray to clear the pinhole aperture.
+    """
+    return radius*(2*offset/thickness + 1)
