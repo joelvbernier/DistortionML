@@ -131,3 +131,29 @@ fig, ax = plt.subplots()
 mappable = ax.imshow(np.degrees(corr), cmap=plt.cm.gnuplot2)
 fig.colorbar(mappable)
 plt.show()
+
+"""
+# This custom formatter removes trailing zeros, e.g. "1.0" becomes "1", and
+# then adds a percent sign.
+def fmt(x):
+    s = f"{x:.1f}"
+    if s.endswith("0"):
+        s = f"{x:.0f}"
+    return rf"{s}" if plt.rcParams["text.usetex"] else f"{s}"
+
+fig, ax = plt.subplots()
+mappable = ax.imshow(np.degrees(pv['intensities']), cmap=plt.cm.inferno, extent=pv['extent'])
+ax.axis('auto')
+cbar = fig.colorbar(mappable)
+cbar.set_label(r'$2\theta_s-2\theta_n$ [deg]')
+fig.suptitle(r'$2\theta_s-2\theta_n$, $20\mu\mathrm{m}$ voxels, $150\mu\mathrm{m}$ standoff')
+ax.set_xlim(10, 110)
+ax.set_xlabel(r'nominal Bragg angle, $2\theta_n$ [deg]')
+ax.set_ylabel(r'azimuth, $\eta_n$ [deg]')
+CS = ax.contour(np.array(pv['tth_coordinates']),
+                np.array(pv['eta_coordinates']),
+                np.degrees(pv['intensities']), colors='w',
+                levels=[0.2, 0.3, 0.5, 0.8, 1.1])
+ax.clabel(CS, CS.levels, inline=True, fmt=fmt, fontsize=12)
+ax.grid(True)
+"""
