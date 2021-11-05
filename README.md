@@ -1,6 +1,13 @@
 # DistortionML
 Machine Learning approach for quantifying detector distortion fields.  This project is a feasibility study for training a surrogate model (possibly NN) to represent the distortion inherent to X-ray pinhole cameras using a nearby, divergent source.
 
+Things to do:
+- [ ] remove the `hexrd` dependency
+  - [ ] makea local version `detectorXYToGvec`
+  - [ ] replace the use of the instrument module by extracting the necessary parameters directly from the HDF5 config file.
+- [ ] make a PyTorch implementation of the `pinhole_camera_module`
+- [ ] set up a test training problem
+
 ## Running
 This project currently depends on [hexrd](https://github.com/HEXRD/hexrd.git); the simplest way to get running is to use conda.  It is highly recommended to put `hexrd` into its own virtual env:
 ```
