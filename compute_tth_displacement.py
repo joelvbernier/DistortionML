@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 # %% PARAMETERS
 # ============================================================================='
 resources_path = './resources'
-ref_config = 'reference_instrument_2.hexrd'
+ref_config = 'reference_instrument.hexrd'
 
 det_key = 'IMAGE-PLATE-4'
 
@@ -173,7 +173,7 @@ start_stop = distribute_tasks(len(vcrds), max_workers=max_workers)
 start_stop_all = (start_stop[0][0], start_stop[-1][-1])
 
 mat_dict = material.load_materials_hdf5(
-    matl_fname,
+    os.path.join(resources_path, matl_fname),
     dmin=valunits.valWUnit('dmin', 'length', dmin, 'angstrom'),
     kev=valunits.valWUnit('kev', 'energy', instr.beam_energy, 'keV')
 )
@@ -303,7 +303,10 @@ def grand_loop(start_stop, coords, detector, bhat, rho, pinhole_radius,
 # =============================================================================
 # %% EXECUTE VOXEL LOOP
 # =============================================================================
-mp_ctx = multiprocessing.get_context("fork")
+if os.name == 'nt':
+    mp_ctx = multiprocessing.get_context("spawn")
+else:
+    mp_ctx = multiprocessing.get_context("fork")
 perf_results = None  # dict()
 
 '''
